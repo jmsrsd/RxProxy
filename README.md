@@ -1,7 +1,7 @@
 # RxProxy
 
 RxProxy is a simple way of creating observables that can be feed values in a non-reactive way.
-As you might know, in the Rx way Subjects are used just for this propose.
+As you might know, in the Rx way, Subjects are used mostly for this propose.
 However, they are affected bu some problems that RxProxy wants to resolve.
 
 ### Build Status
