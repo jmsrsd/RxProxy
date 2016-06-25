@@ -1,5 +1,6 @@
 # RxProxy 
-[![Build Status](https://travis-ci.org/upday/RxProxy.svg?branch=master)](https://travis-ci.org/upday/RxProxy)
+[![Build Status](https://travis-ci.org/upday/RxProxy.svg?branch=master)](https://travis-ci.org/upday/RxProxy) [![codecov.io](http://codecov.io/github/upday/RxProxy/coverage.svg?branch=master)](http://codecov.io/github/upday/RxProxy?branch=master)
+
 
 RxProxy is simple way of creating observables that can be feed values in non-reactive way.
 As you might know, in the Rx way Subjects are used just for this propose.
