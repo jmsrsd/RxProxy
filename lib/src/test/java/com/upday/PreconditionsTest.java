@@ -25,26 +25,21 @@
 
 package com.upday;
 
-/**
- * Utility class providing preconditions.
- */
-final class Preconditions {
+import org.junit.Test;
 
-    private Preconditions() {
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class PreconditionsTest {
+
+    @Test(expected = NullPointerException.class)
+    public void checkNotNull_ThrowsWhenPassedNull() {
+        Preconditions.checkNotNull(null, "Null has been provided.");
     }
 
-    /**
-     * Checks if the reference is not null.
-     *
-     * @param reference    an object reference
-     * @param errorMessage the exception message to use if the check fails
-     * @return the non-null reference
-     * @throws NullPointerException if {@code reference} is null
-     */
-    static <T> T checkNotNull(T reference, String errorMessage) {
-        if (reference == null) {
-            throw new NullPointerException(errorMessage);
-        }
-        return reference;
+    @Test
+    public void checkNotNull_ReturnsNotNullObject() {
+        assertThat(Preconditions.checkNotNull("test", "Null has been provided."))
+                .isEqualTo("test");
     }
+
 }
