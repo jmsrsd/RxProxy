@@ -28,8 +28,9 @@ Subscribe for the changes.
     
 ## Issues with Subjects
 Subjects are really useful, but we have noticed two issues with them:
--  Publication and subscription do happen on the same thread. It does not matter if you are using `subscribeOn(Scheduler)`. The subscription will be executed on the same thread as `onNext(T)` was called. This can be mitigated with `observeOn(Scheduler)` but is changes the original pattern of the monad.
-- WIP
+
+* Publication and subscription do happen on the same thread. It does not matter if you are using `subscribeOn`. The subscription will be executed on the same thread as `onNext` was called. This can be mitigated with `observeOn` but is changes the original pattern of the monad.
+* One can get confused when using `onComplete` and `onError`. Those can leave subjects in a unusable state without making the user aware. In our aproach a stream cannot be finished or report an error on it's own.
 
 ## Credits
 The idea for the project has been lit after reading a great series of blogs [on RxJava by Dávid Karnok](http://akarnokd.blogspot.de/).
