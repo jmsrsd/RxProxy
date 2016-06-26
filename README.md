@@ -6,18 +6,18 @@ RxProxy is a simple way of creating Observables that can be feed values in a non
 [![Build Status](https://travis-ci.org/upday/RxProxy.svg?branch=master)](https://travis-ci.org/upday/RxProxy) [![codecov.io](http://codecov.io/github/upday/RxProxy/coverage.svg?branch=master)](http://codecov.io/github/upday/RxProxy?branch=master)
 
 ## Usage
-Declare `RxProxy` as a member variable.
+Declare `RxProxy` as a member variable:
 
     private final RxProxy<String> mTextStream = RxPublishProxy.create();
     
 
-Publish on the proxy.
+Publish on the proxy:
 
     private void changeText(final String text) {
         mTextStream.publish(text);
     }
 
-Subscribe for the changes.
+Subscribe for the changes:
 
     mTextStream.asObservable(Schedulers.computation())
                .filter(this::isValidText)
