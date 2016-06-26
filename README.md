@@ -7,6 +7,32 @@ However, they are affected bu some problems that RxProxy wants to resolve.
 ### Build Status
 [![Build Status](https://travis-ci.org/upday/RxProxy.svg?branch=master)](https://travis-ci.org/upday/RxProxy) [![codecov.io](http://codecov.io/github/upday/RxProxy/coverage.svg?branch=master)](http://codecov.io/github/upday/RxProxy?branch=master)
 
+## Usage
+Declare `RxProxy` as a member variable.
+
+    private final RxProxy<String> mTextStream = RxPublishProxy.create();
+    
+
+Publish on the proxy.
+
+    private void changeText(final String text) {
+        mTextStream.publish(text);
+    }
+
+Subscribe for the changes.
+
+    mTextStream.asObservable(Schedulers.computation())
+               .filter(String::isEmpty)
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(mTextView::setText);
+    
+## Issues with Subjects
+Subjects are really useful, but we have noticed two issues with them:
+1. Publication and subscription do happen on the same thread. 
+It does not matter if you are using `subscribeOn(Scheduler)`. The subscription will be executed on the same thread as `onNext(T)` was called.
+This can be mitigated with `observeOn(Scheduler)` but is changes the original pattern of the monad.
+2. WIP
+
 ## Credits
 The idea for the project has been lit after reading a great series of blogs [on RxJava by Dávid Karnok](http://akarnokd.blogspot.de/).
 
