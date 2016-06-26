@@ -1,8 +1,6 @@
 # RxProxy
 
-RxProxy is a simple way of creating observables that can be feed values in a non-reactive way.
-As you might know, in the Rx way, Subjects are used mostly for this propose.
-However, they are affected bu some problems that RxProxy wants to resolve.
+RxProxy is a simple way of creating Observables that can be feed values in a non-reactive way.
 
 ### Build Status
 [![Build Status](https://travis-ci.org/upday/RxProxy.svg?branch=master)](https://travis-ci.org/upday/RxProxy) [![codecov.io](http://codecov.io/github/upday/RxProxy/coverage.svg?branch=master)](http://codecov.io/github/upday/RxProxy?branch=master)
