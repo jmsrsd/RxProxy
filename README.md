@@ -22,7 +22,7 @@ Publish on the proxy.
 Subscribe for the changes.
 
     mTextStream.asObservable(Schedulers.computation())
-               .filter(String::isEmpty)
+               .filter(this::isValidText)
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(mTextView::setText);
     
