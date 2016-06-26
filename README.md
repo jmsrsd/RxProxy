@@ -29,11 +29,12 @@ Subscribe for the changes.
 ## Issues with Subjects
 Subjects are really useful, but we have noticed two issues with them:
 
-* Publication and subscription do happen on the same thread. It does not matter if you are using `subscribeOn`. The subscription will be executed on the same thread as `onNext` was called. This can be mitigated with `observeOn` but is changes the original pattern of the monad.
-* One can get confused when using `onComplete` and `onError`. Those can leave subjects in a unusable state without making the user aware. In our aproach a stream cannot be finished or report an error on it's own.
+* Publication and subscription do happen on the same thread. It does not matter if you are using `subscribeOn`. The subscription will be executed on the same thread as `onNext` was called. This can be mitigated with `observeOn` but is changes the original pattern of the monad. `RxProxy` needs to define which thread-pool is used when receiving events from the proxy.
+* One can get confused when using `onComplete` and `onError`. Those can leave subjects in a unusable state without making the user aware. In our aproach a stream cannot be finished or report an error on it's own. `RxProxy` just contains `publish` method that is the equvalent of `onNext`.
+* Most subjects do not support back-pressure. They immiedietly report an error whenever more items are delivered than requested. In our implementation we do have a dedicated small buffer that in the future we can control.
 
 ## Credits
-The idea for the project has been lit after reading a great series of blogs [on RxJava by Dávid Karnok](http://akarnokd.blogspot.de/).
+The idea for the project has been lit after reading a great series of blogs on [RxJava](http://akarnokd.blogspot.de/) by  [Dávid Karnok](https://plus.google.com/113316559156085910174/posts).
 
 License
 -------
