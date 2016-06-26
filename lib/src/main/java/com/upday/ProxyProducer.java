@@ -39,9 +39,7 @@ import static com.upday.Preconditions.checkNotNull;
 /**
  * Producer that supplies values to RxProxy.
  *
- * Please do not split the class into smaller methods just for clarity sake.
- * The class must be thread safe and performing. Inlining methods in Java still
- * is not fast enough.
+ * The code is based on a non-blocking queue implementation from RxJava.
  */
 final class ProxyProducer<T> extends AtomicLong implements Producer {
 
