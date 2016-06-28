@@ -1,13 +1,14 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: "maven-publish"
 
-version = '0.1'
+version = '0.1.1'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
@@ -39,3 +40,20 @@ dependencies {
 }
 
 check.dependsOn jacocoTestReport
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier "sources"
+}
+
+publishing {
+    publications {
+        releaseJar(MavenPublication) {
+            from components.java
+            artifactId "rxproxy"
+            version project.version
+            groupId "com.upday"
+            artifact sourceJar
+        }
+    }
+}
