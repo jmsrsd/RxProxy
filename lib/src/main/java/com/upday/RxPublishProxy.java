@@ -40,7 +40,7 @@ import static com.upday.Preconditions.checkNotNull;
 
 
 /**
- * Implementation of IRxProxy that forwards a value.
+ * Implementation of RxProxy that forwards a value.
  */
 public class RxPublishProxy<T> implements RxProxy<T> {
 
