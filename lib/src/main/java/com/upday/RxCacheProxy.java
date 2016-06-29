@@ -40,6 +40,8 @@ public final class RxCacheProxy<T> extends RxPublishProxy<T> {
     private final AtomicReference<T> mCachedValue = new AtomicReference<>();
 
     public static <T> RxCacheProxy<T> create(final T defaultValue) {
+        checkNotNull(defaultValue, "Default value cannot be null.");
+
         return new RxCacheProxy<>(defaultValue);
     }
 

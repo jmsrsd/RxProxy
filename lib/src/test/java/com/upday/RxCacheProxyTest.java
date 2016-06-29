@@ -127,4 +127,9 @@ public class RxCacheProxyTest {
         assertThat(proxy.hasValue()).isTrue();
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testCreate_DoesNotAcceptNullAsDefaultValue() {
+        RxCacheProxy.create(null);
+    }
+
 }
