@@ -34,6 +34,7 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.Scheduler.Worker;
 import rx.Subscriber;
+import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
 import static com.upday.Preconditions.checkNotNull;
@@ -44,10 +45,10 @@ import static com.upday.Preconditions.checkNotNull;
  */
 public class RxPublishProxy<T> implements RxProxy<T> {
 
-    private final Collection<Callback<T>> mCallbacks = new CopyOnWriteArrayList<>();
+    private final Collection<Callback<T>> mCallbacks = new CopyOnWriteArrayList<Callback<T>>();
 
     public static <T> RxPublishProxy<T> create() {
-        return new RxPublishProxy<>();
+        return new RxPublishProxy<T>();
     }
 
     RxPublishProxy() {
@@ -97,15 +98,28 @@ public class RxPublishProxy<T> implements RxProxy<T> {
                     final Worker worker = mScheduler.createWorker();
                     subscriber.add(worker);
                     subscriber.setProducer(producer);
-                    final Callback<T> listener = value -> {
-                        if (!subscriber.isUnsubscribed()) {
-                            worker.schedule(() -> producer.offer(value));
+                    final Callback<T> listener = new Callback<T>() {
+                        @Override
+                        public void notify(final T value) {
+                            if (!subscriber.isUnsubscribed()) {
+                                worker.schedule(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        producer.offer(value);
+                                    }
+                                });
+                            }
                         }
                     };
 
                     addCallback(listener);
 
-                    subscriber.add(Subscriptions.create(() -> removeCallback(listener)));
+                    subscriber.add(Subscriptions.create(new Action0() {
+                        @Override
+                        public void call() {
+                            removeCallback(listener);
+                        }
+                    }));
                 } catch (RuntimeException e) {
                     subscriber.onError(e);
                 }
@@ -116,9 +130,9 @@ public class RxPublishProxy<T> implements RxProxy<T> {
                                              final T value) {
 
             if (value != null) {
-                return new ProxyProducer<>(subscriber, value);
+                return new ProxyProducer<T>(subscriber, value);
             }
-            return new ProxyProducer<>(subscriber);
+            return new ProxyProducer<T>(subscriber);
         }
 
     }

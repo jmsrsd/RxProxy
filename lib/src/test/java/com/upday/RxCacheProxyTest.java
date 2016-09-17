@@ -36,7 +36,7 @@ public class RxCacheProxyTest {
 
     @Test
     public void testContainsInitialValue_WhenCreatedWithValue() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         RxCacheProxy<Integer> proxy = RxCacheProxy.create(1);
 
         proxy.asObservable(Schedulers.computation())
@@ -47,7 +47,7 @@ public class RxCacheProxyTest {
 
     @Test
     public void testContainsNoInitialValue_WhenCreatedWithoutValue() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         RxCacheProxy<Integer> proxy = RxCacheProxy.create();
 
         proxy.asObservable(Schedulers.computation())
@@ -59,7 +59,7 @@ public class RxCacheProxyTest {
 
     @Test
     public void testUpdatesValueOfNextSubscriber() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         RxCacheProxy<Integer> proxy = RxCacheProxy.create(1);
         proxy.publish(2);
 
@@ -72,7 +72,7 @@ public class RxCacheProxyTest {
     @Test
     public void testPublishRespectsBackPressure_AndEmitsJustOneRequestedItem() {
         RxCacheProxy<Integer> proxy = RxCacheProxy.create(1);
-        TestSubscriber<Integer> ts = new TestSubscriber<>(1);
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>(1);
         proxy.asObservable(Schedulers.computation()).subscribe(ts);
 
         proxy.publish(1);

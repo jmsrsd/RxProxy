@@ -31,6 +31,7 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import rx.functions.Action1;
 import rx.observers.TestSubscriber;
 
 import static java.lang.Thread.currentThread;
@@ -49,7 +50,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void publish_IsCalledOnDifferentThread() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         mProxy.asObservable(computation())
               .first()
               .subscribe(ts);
@@ -63,7 +64,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void publish_NotifiesSubscriber() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         mProxy.asObservable(computation())
               .first()
               .subscribe(ts);
@@ -77,7 +78,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void publish_NotifiesAllValues() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         mProxy.asObservable(computation())
               .take(3)
               .subscribe(ts);
@@ -93,11 +94,15 @@ public class RxPublishProxyTest {
 
     @Test
     public void monadCallsArePerformedOnScheduledThread() {
-        final AtomicReference<Thread> onNextThread = new AtomicReference<>();
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        final AtomicReference<Thread> onNextThread = new AtomicReference<Thread>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         mProxy.asObservable(computation())
-              .doOnNext(__ -> onNextThread
-                      .set(currentThread()))
+              .doOnNext(new Action1<Integer>() {
+                  @Override
+                  public void call(Integer __) {
+                      onNextThread.set(currentThread());
+                  }
+              })
               .first()
               .subscribe(ts);
 
@@ -110,7 +115,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void publishRespectsBackPressure_AndEmitsJustOneRequestedItem() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>(1);
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>(1);
         mProxy.asObservable(immediate()).subscribe(ts);
 
         mProxy.publish(1);
@@ -121,7 +126,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void publishRespectsBackPressure_DoesNotEmmitValues_WhenNotRequested() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
 
         mProxy.asObservable(immediate()).subscribe(ts);
 
@@ -130,7 +135,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void publishRespectsBackPressure_DoesNotComplete_WhenNotRequested() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
 
         mProxy.asObservable(immediate()).subscribe(ts);
 
@@ -139,7 +144,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void proxy_DoesNotReceiveValues_WhenZeroValuesRequested() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         mProxy.asObservable(immediate()).subscribe(ts);
 
         ts.requestMore(0);
@@ -149,7 +154,7 @@ public class RxPublishProxyTest {
 
     @Test
     public void proxy_DoesNotReceiveValues_WhenUnsubscribed() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        TestSubscriber<Integer> ts = new TestSubscriber<Integer>();
         mProxy.asObservable(immediate()).subscribe(ts).unsubscribe();
 
         ts.requestMore(1);
