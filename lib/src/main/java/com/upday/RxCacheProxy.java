@@ -37,16 +37,16 @@ import static com.upday.Preconditions.checkNotNull;
  */
 public final class RxCacheProxy<T> extends RxPublishProxy<T> {
 
-    private final AtomicReference<T> mCachedValue = new AtomicReference<>();
+    private final AtomicReference<T> mCachedValue = new AtomicReference<T>();
 
     public static <T> RxCacheProxy<T> create(final T defaultValue) {
         checkNotNull(defaultValue, "Default value cannot be null.");
 
-        return new RxCacheProxy<>(defaultValue);
+        return new RxCacheProxy<T>(defaultValue);
     }
 
     public static <T> RxCacheProxy<T> create() {
-        return new RxCacheProxy<>(null);
+        return new RxCacheProxy<T>(null);
     }
 
     private RxCacheProxy(final T value) {

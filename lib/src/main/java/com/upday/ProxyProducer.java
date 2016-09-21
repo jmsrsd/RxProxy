@@ -47,7 +47,7 @@ final class ProxyProducer<T> extends AtomicLong implements Producer {
 
     private final Subscriber<? super T> mSubscriber;
 
-    private final Queue<T> mQueue = new SpscLinkedQueue<>();
+    private final Queue<T> mQueue = new SpscLinkedQueue<T>();
 
     /**
      * Using the Integer as the possibility of overflow is really small and might
