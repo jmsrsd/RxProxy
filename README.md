@@ -32,7 +32,7 @@ Subjects are really useful, but we have noticed two issues with them:
 * Most Subjects do not support back-pressure. They immediately report an error whenever more items are delivered than requested. In `RxProxy`, each implementation has a small dedicated buffer that in the future we can control.
 
 ## Credits
-The idea for the project was inspired after reading a great series of blogs on [RxJava](http://akarnokd.blogspot.de/) by  [Dávid Karnok](https://plus.google.com/113316559156085910174/posts).
+The project was inspired by reading a great series of blogs on [RxJava](http://akarnokd.blogspot.de/) by  [Dávid Karnok](https://plus.google.com/113316559156085910174/posts).
 
 License
 -------
