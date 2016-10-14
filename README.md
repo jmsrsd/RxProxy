@@ -25,7 +25,7 @@ Subscribe for the changes:
                .subscribe(mTextView::setText);
     
 ## Issues with Subjects
-Subjects are really useful, but we have noticed two issues with them:
+Subjects are really useful, but we have noticed some issues with them:
 
 * Publication and subscription do happen on the same thread. It does not matter if you are using `subscribeOn`. The subscription will be executed on the same thread from which `onNext` was called. This can be mitigated with `observeOn` but it changes the original pattern of the monad. `RxProxy` requires subscribers to define which `Scheduler` is used when receiving events from the proxy.
 * One can get confused when using `onComplete` and `onError`. Those can leave Subjects in a unusable state without making the user aware. In `RxProxy` a stream cannot be finished or report an error on its own. `RxProxy` just contains a `publish` method that is the equivalent of `onNext`.
